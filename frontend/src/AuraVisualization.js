@@ -110,6 +110,11 @@ function AuraVisualization({ sentiment = 0.5, emotion = "neutral" }) {
         noiseStrength = 2.5;
         connectionDistance = 110;
         break;
+      default:
+        noiseScale = 0.003;
+        noiseStrength = 2;
+        connectionDistance = 100;
+        break;
     }
 
     // Draw particles
