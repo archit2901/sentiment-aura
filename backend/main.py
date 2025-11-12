@@ -14,8 +14,9 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:3000",
-        "https://sentiment-aura.vercel.app",  # Add your Vercel URL here
-        "https://*.vercel.app"  # Allow all Vercel preview deployments
+        "https://sentiment-aura-git-main-archit2011-gmailcoms-projects.vercel.app",
+        "https://sentiment-aura-7hq1ul2qr-archit2011-gmailcoms-projects.vercel.app",
+        "https://*.vercel.app"  # Wildcard for all Vercel deployments
     ],
     allow_credentials=True,
     allow_methods=["*"],

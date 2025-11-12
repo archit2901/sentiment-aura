@@ -23,7 +23,6 @@ function AudioCapture({ onSentimentUpdate }) {
       streamRef.current = stream;
       console.log("✅ Microphone access granted");
 
-      const DEEPGRAM_API_KEY = "6123546c58fe9fab72f8c35dc92c074d88602e5f";
       const deepgramUrl = `wss://api.deepgram.com/v1/listen?encoding=linear16&sample_rate=16000&channels=1`;
 
       const socket = new WebSocket(deepgramUrl, ["token", DEEPGRAM_API_KEY]);
