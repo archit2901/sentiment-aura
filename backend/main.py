@@ -10,14 +10,25 @@ load_dotenv()
 
 app = FastAPI()
 
+# Dynamic CORS to allow all Vercel deployments
+@app.middleware("http")
+async def cors_middleware(request, call_next):
+    origin = request.headers.get("origin")
+    response = await call_next(request)
+
+    # Allow localhost and all vercel.app domains
+    if origin and (origin.startswith("http://localhost") or origin.endswith(".vercel.app")):
+        response.headers["Access-Control-Allow-Origin"] = origin
+        response.headers["Access-Control-Allow-Credentials"] = "true"
+        response.headers["Access-Control-Allow-Methods"] = "*"
+        response.headers["Access-Control-Allow-Headers"] = "*"
+
+    return response
+
+# Keep the standard CORS as fallback
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "https://sentiment-aura-git-main-archit2011-gmailcoms-projects.vercel.app",
-        "https://sentiment-aura-7hq1ul2qr-archit2011-gmailcoms-projects.vercel.app",
-        "https://*.vercel.app"  # Wildcard for all Vercel deployments
-    ],
+    allow_origins=["*"],  # Allow all for now
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -61,7 +72,6 @@ Return ONLY the JSON, no other text."""
         result_text = message.content[0].text.strip()
         print(f"🤖 Claude response: {result_text}")
 
-        # Parse JSON
         if "```json" in result_text:
             result_text = result_text.split("```json")[1].split("```")[0].strip()
         elif "```" in result_text:
