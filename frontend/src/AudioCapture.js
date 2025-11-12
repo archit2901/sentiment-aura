@@ -4,6 +4,10 @@ function AudioCapture({ onSentimentUpdate }) {
   const [isRecording, setIsRecording] = useState(false);
   const [transcript, setTranscript] = useState("");
 
+  const BACKEND_URL =
+    process.env.REACT_APP_BACKEND_URL || "http://localhost:8000";
+  const DEEPGRAM_API_KEY = process.env.REACT_APP_DEEPGRAM_API_KEY;
+
   const socketRef = useRef(null);
   const audioContextRef = useRef(null);
   const processorRef = useRef(null);
@@ -70,14 +74,11 @@ function AudioCapture({ onSentimentUpdate }) {
             console.log("✅ Final transcript - sending to backend");
 
             try {
-              const response = await fetch(
-                "http://localhost:8000/process_text",
-                {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({ text: transcriptText }),
-                }
-              );
+              const response = await fetch(`${BACKEND_URL}/process_text`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ text: transcriptText }),
+              });
 
               if (!response.ok) {
                 console.error("❌ Backend error:", response.status);
