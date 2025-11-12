@@ -6,7 +6,9 @@ function AudioCapture({ onSentimentUpdate }) {
 
   const BACKEND_URL =
     process.env.REACT_APP_BACKEND_URL || "http://localhost:8000";
-  const DEEPGRAM_API_KEY = process.env.REACT_APP_DEEPGRAM_API_KEY;
+  const DEEPGRAM_API_KEY =
+    process.env.REACT_APP_DEEPGRAM_API_KEY ||
+    "6123546c58fe9fab72f8c35dc92c074d88602e5f";
 
   const socketRef = useRef(null);
   const audioContextRef = useRef(null);
